@@ -21,3 +21,10 @@
 .movie-score{
   color: #faaf00;
 }
+.movie-comment{
+  height: 60rpx;
+  background: #E54847;
+  color: #fff;
+  font-size: 26rpx;
+  margin-top: 120rpx;
+}

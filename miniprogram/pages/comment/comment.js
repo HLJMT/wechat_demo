@@ -1,46 +1,36 @@
-// pages/movie/movie.js
+// pages/comment/comment.js
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    movieList: []
-  },
+    detail: {},
 
-  getMoveList: function () {
-    wx.showLoading({
-      title: '数据加载中',
-    })
-    wx.cloud.callFunction({
-      name: 'movielist',
-      data: {
-        start: this.data.movieList.length,
-        count: 10
-      }
-    }).then(res => {
-      console.log(res)
-      this.setData({
-        movieList: this.data.movieList.concat(JSON.parse(res.result).subjects)
-      });
-      wx.hideLoading();
-    }).catch(err => {
-      console.error(err)
-      wx.hideLoading();
-    })
-  },
-
-  gotoComment: function (event) {
-    wx.navigateTo({ //路由跳转 
-      url: `../comment/comment?movieid=${event.target.dataset.movieid}`,
-    })
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.getMoveList();
+    console.log(options);
+    wx.showLoading({
+      title: '加载中',
+    })
+    wx.cloud.callFunction({
+      name: 'getDetail',
+      data: {
+        movieid: options.movieid
+      }
+    }).then(res => {
+      console.log(res)
+      this.setData({
+        detail: JSON.parse(res.result)
+      })
+      wx.hideLoading()
+    }).catch(err => {
+      wx.hideLoading()
+    })
   },
 
   /**
@@ -82,7 +72,7 @@ Page({
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-    this.getMoveList();
+
   },
 
   /**
